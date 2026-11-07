@@ -1,0 +1,21 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net8.0</TargetFramework>
+    <LangVersion>latest</LangVersion>
+    <Nullable>disable</Nullable>
+    <AssemblyName>EmbyFilenameTagger.Tests</AssemblyName>
+    <RootNamespace>EmbyFilenameTagger.Tests</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <!-- 只链接纯逻辑文件，不依赖 Emby 运行时，因此不需要任何 Emby 程序集 -->
+    <Compile Include="..\EmbyFilenameTagger\Core\RuleEngine.cs" Link="Core\RuleEngine.cs" />
+    <Compile Include="..\EmbyFilenameTagger\Core\GenreMapper.cs" Link="Core\GenreMapper.cs" />
+    <Compile Include="..\EmbyFilenameTagger\Core\RuleModel.cs" Link="Core\RuleModel.cs" />
+    <Compile Include="..\EmbyFilenameTagger\Core\MappingParser.cs" Link="Core\MappingParser.cs" />
+    <Compile Include="..\EmbyFilenameTagger\Core\PeopleOrdering.cs" Link="Core\PeopleOrdering.cs" />
+  </ItemGroup>
+
+</Project>

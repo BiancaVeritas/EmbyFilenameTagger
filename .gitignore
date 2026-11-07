@@ -1,0 +1,21 @@
+# 构建产物
+bin/
+obj/
+*.user
+*.suo
+.vs/
+
+# 打包输出（由 release 工作流生成，不入库）
+dist/*.dll
+!dist/.gitkeep
+
+# 编辑器与操作系统
+.idea/
+.vscode/
+.DS_Store
+Thumbs.db
+
+# 临时文件
+*.log
+*.tmp
+.edge-*/

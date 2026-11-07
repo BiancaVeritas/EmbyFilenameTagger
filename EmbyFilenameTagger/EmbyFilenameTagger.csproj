@@ -1,0 +1,50 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <!-- Emby Server 4.10 杩愯鍦?.NET 8 涓娿€傝嫢浣犵殑鏈嶅姟绔槸 4.8锛屾妸杩欓噷鏀规垚 net6.0 鍗冲彲銆?-->
+    <TargetFramework>net8.0</TargetFramework>
+    <LangVersion>latest</LangVersion>
+    <Nullable>disable</Nullable>
+    <AssemblyName>EmbyFilenameTagger</AssemblyName>
+    <RootNamespace>EmbyFilenameTagger</RootNamespace>
+    <Version>1.0.12.0</Version>
+    <AssemblyVersion>1.0.12.0</AssemblyVersion>
+    <FileVersion>1.0.12.0</FileVersion>
+    <GenerateDocumentationFile>false</GenerateDocumentationFile>
+    <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+    <DebugType>none</DebugType>
+    <EnableDefaultCompileItems>true</EnableDefaultCompileItems>
+    <NoWarn>$(NoWarn);CS1591;NU1701</NoWarn>
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <!-- Emby 瀹樻柟鎻掍欢 SDK銆傝繖浜涚▼搴忛泦鐢辨湇鍔＄鍦ㄨ繍琛屾椂鎻愪緵锛屾墍浠ヤ笉闅忔彃浠朵竴璧锋嫹璐濄€?-->
+    <PackageReference Include="MediaBrowser.Server.Core" Version="4.10.0.24-beta2">
+      <ExcludeAssets>runtime</ExcludeAssets>
+    </PackageReference>
+    <PackageReference Include="MediaBrowser.Common" Version="4.10.0.24-beta2">
+      <ExcludeAssets>runtime</ExcludeAssets>
+    </PackageReference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <!-- 璁剧疆椤?HTML 涓庤剼鏈祵鍏?DLL锛屾彃浠朵繚鎸佸崟鏂囦欢鍒嗗彂銆?         璧勬簮鍚嶇敱 RootNamespace + 鐩稿璺緞鎺ㄥ锛?           EmbyFilenameTagger.Web.config.html
+           EmbyFilenameTagger.Web.config.js -->
+    <EmbeddedResource Include="Web\config.html" />
+    <EmbeddedResource Include="Web\config.js" />
+  </ItemGroup>
+
+  <!-- 缂栬瘧浜х墿鐩存帴鎷峰埌 Emby 鎻掍欢鐩綍锛岀渷鍘绘墜宸ュ鍒躲€?       鐩綍涓嶅瓨鍦ㄦ椂鑷姩璺宠繃锛屼笉褰卞搷缂栬瘧銆?-->
+  <Target Name="DeployToEmby" AfterTargets="Build"
+          Condition="'$(DeployToEmby)' != 'false'">
+    <PropertyGroup>
+      <EmbyPluginsDir Condition="'$(EmbyPluginsDir)' == ''">$(AppData)\Emby-Server\programdata\plugins</EmbyPluginsDir>
+    </PropertyGroup>
+    <Copy SourceFiles="$(TargetPath)"
+          DestinationFolder="$(EmbyPluginsDir)"
+          ContinueOnError="true"
+          Condition="Exists('$(EmbyPluginsDir)')" />
+  </Target>
+
+</Project>

@@ -1,0 +1,76 @@
+name: build
+
+on:
+  push:
+    branches: [ main ]
+    tags: [ 'v*' ]
+  pull_request:
+    branches: [ main ]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 检出代码
+        uses: actions/checkout@v4
+
+      - name: 安装 .NET 8
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '8.0.x'
+
+      - name: 还原依赖
+        run: dotnet restore EmbyFilenameTagger/EmbyFilenameTagger.csproj
+
+      - name: 构建插件
+        run: |
+          dotnet build EmbyFilenameTagger/EmbyFilenameTagger.csproj \
+            -c Release \
+            --no-restore \
+            -p:DeployToEmby=false
+
+      - name: 运行单元测试
+        run: dotnet run --project Tests/Tests.csproj -c Release
+
+      - name: 加载性校验
+        run: |
+          dotnet run --project Verify/Verify.csproj -c Release -- \
+            EmbyFilenameTagger/bin/Release/EmbyFilenameTagger.dll
+
+      - name: 上传构建产物
+        uses: actions/upload-artifact@v4
+        with:
+          name: EmbyFilenameTagger
+          path: EmbyFilenameTagger/bin/Release/EmbyFilenameTagger.dll
+          if-no-files-found: error
+
+  release:
+    needs: build
+    if: startsWith(github.ref, 'refs/tags/v')
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: 检出代码
+        uses: actions/checkout@v4
+
+      - name: 安装 .NET 8
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '8.0.x'
+
+      - name: 构建发布版
+        run: |
+          dotnet build EmbyFilenameTagger/EmbyFilenameTagger.csproj \
+            -c Release \
+            -p:DeployToEmby=false
+
+      - name: 发布 Release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: EmbyFilenameTagger/bin/Release/EmbyFilenameTagger.dll
+          generate_release_notes: true
+          draft: false
