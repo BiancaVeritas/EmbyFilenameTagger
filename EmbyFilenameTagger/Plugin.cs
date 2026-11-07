@@ -61,10 +61,10 @@ namespace EmbyFilenameTagger
             // base.AssemblyFilePath，而 AssemblyFilePath 要等 Emby 在构造完成之后
             // 调用 SetAttributes() 才赋值。构造函数里访问会抛
             // ArgumentNullException("path2")，导致整个插件创建失败。
-            Log("插件已加载。设置页：仪表板 → 插件 → EmbyFilenameTagger → 设置。");
+            Log("插件已加载。设置页：仪表板 → 插件 → 文件名关键词标签 → 设置。");
         }
 
-        public override string Name => "EmbyFilenameTagger";
+        public override string Name => "文件名关键词标签";
 
         public override Guid Id => PluginId;
 
@@ -86,7 +86,7 @@ namespace EmbyFilenameTagger
                 {
                     Name = PageName,
                     EmbeddedResourcePath = HtmlResource,
-                    DisplayName = "EmbyFilenameTagger",
+                    DisplayName = "文件名关键词标签",
                     EnableInMainMenu = false,
                     EnableInUserMenu = false,
                     IsMainConfigPage = true
