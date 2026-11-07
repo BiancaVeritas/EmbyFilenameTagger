@@ -64,7 +64,7 @@ namespace EmbyFilenameTagger
             Log("插件已加载。设置页：仪表板 → 插件 → 文件名关键词标签 → 设置。");
         }
 
-        public override string Name => "文件名关键词标签";
+        public override string Name => "EmbyFilenameTagger";
 
         public override Guid Id => PluginId;
 

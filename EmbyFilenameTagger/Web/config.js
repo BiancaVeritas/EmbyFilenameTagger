@@ -291,7 +291,7 @@ define(['loading'], function (loading) {
 
     TaggingPage.prototype.renderHeader = function () {
         var wrap = el('div');
-        wrap.appendChild(el('h1', 'ft-title', 'EmbyFilenameTagger'));
+        wrap.appendChild(el('h1', 'ft-title', '文件名关键词标签'));
 
         var sub = el('div', 'ft-sub');
         sub.innerHTML = '根据文件名中的关键词自动写入标签 / 类型 / 演员 / 制片。<br>' +
